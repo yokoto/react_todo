@@ -56,6 +56,16 @@ class App extends Component {
     this.setState({ todos });
   }
 
+  handleRemove(i) {
+    const todos = this.state.todos.slice()
+    const countTodo = this.state.countTodo
+
+    todos.splice(i-1, 1);
+
+    this.setState({ todos })
+    this.setState({ countTodo: countTodo - 1 })
+  }
+
   render() {
     return (
       <div className="App">
@@ -64,6 +74,7 @@ class App extends Component {
         <TodoList
           todos={this.state.todos}
           setTodoStatus={this.setTodoStatus.bind(this)}
+          handleRemove={this.handleRemove.bind(this)}
         />
       </div>
     );
