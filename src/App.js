@@ -8,56 +8,66 @@ class App extends Component {
     super()
     const todos = []
     this.state = {
+      todos: todos,
+      countTodoId: 0,
       isLoading: false,
       hasError: false,
-      todos: todos,
-      countTodo: todos.length + 1,
     }
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    const title = e.target.title.value;
-    const desc = e.target.desc.value;
-    const todos = this.state.todos.slice()
-    const countTodo = this.state.countTodo
+    const countTodoId = this.state.countTodoId + 1
+    let title = e.target.title.value
+    if (title=== '') {
+      title = "【デフォルト値】reactの勉強"
+    }
+    let desc = e.target.desc.value
+    if (desc === '') {
+      desc = "【デフォルト値】todoアプリを作っています"
+    }
 
-    todos.push({
-      id: countTodo,
-      title: title,
-      desc: desc,
-      done: false,
+    this.setState({
+      ...this.state,
+      todos: this.state.todos.concat({
+        id: countTodoId,
+        title: title,
+        desc: desc,
+        done: false,
+      }),
+      countTodoId: countTodoId
     })
-
-    this.setState({ todos })
-    this.setState({ countTodo: countTodo + 1 })
 
     e.target.title.value = '';
     e.target.desc.value = ''
   }
 
-  setTodoStatus(clickTodo) {
-    const todos = this.state.todos.slice();
-    const todo = todos[clickTodo.id - 1];
-    todo.done = !todo.done;
-    todos[clickTodo.id - 1] = todo;
-
-    this.setState({ todos });
+  setTodoStatus(el) {
+    console.log(el)
+    const todos = this.state.todos.map(td => {
+      if (td.id === el.id) {
+        td.done = !td.done
+      }
+      return td
+    })
+    this.setState({
+      ...this.state,
+      todos,
+    })
   }
 
   handleRemove(i) {
     const todos = this.state.todos.filter(res => res.id !== i)
-    const countTodo = this.state.countTodo
-
-    this.setState({ todos })
-    this.setState({ countTodo: countTodo - 1 })
+    this.setState({
+      ...this.state,
+      todos
+    })
   }
 
   fetchData(url) {
     this.setState({ isLoading: true })
     fetch(url)
     .then((response) => {
-      console.log(response)
       if (!response.ok) {
         throw Error(response.statusText);
       }
@@ -66,12 +76,16 @@ class App extends Component {
     })
     .then((response) => response.json())
     .then((data) => {
-      let countTodo = this.state.countTodo
+      let countTodoId = this.state.countTodoId
       const todos = data.map(data => {
-        const todo = Object.assign({}, data, { id: countTodo++, done: false })
+        const todo = Object.assign({}, data, { id: countTodoId++, done: false })
         return todo
       })
-      this.setState({ todos, countTodo })
+      console.log(todos);
+      this.setState({
+        todos,
+        countTodoId: todos.length - 1
+      })
     })
     .catch(() => this.setState({ hasError: true }))
   }
@@ -89,8 +103,8 @@ class App extends Component {
           todos={this.state.todos}
           setTodoStatus={this.setTodoStatus.bind(this)}
           handleRemove={this.handleRemove.bind(this)}
-          isLoading={this.state.isLoading}
-          hasError={this.state.hasError}
+          //isLoading={this.state.isLoading}
+          //hasError={this.state.hasError}
         />
       </div>
     );

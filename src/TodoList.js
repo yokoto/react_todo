@@ -14,9 +14,9 @@ class TodoList extends Component {
     const todos = this.props.todos.map(todo =>
       <Todo
         key={todo.id}
-        {...todo}
         setTodoStatus={this.props.setTodoStatus}
         handleRemove={this.props.handleRemove}
+        {...todo}
       />
     )
 
