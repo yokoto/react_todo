@@ -46,10 +46,8 @@ class App extends Component {
   }
 
   handleRemove(i) {
-    const todos = this.state.todos.slice()
+    const todos = this.state.todos.filter(res => res.id !== i)
     const countTodo = this.state.countTodo
-
-    todos.splice(i-1, 1);
 
     this.setState({ todos })
     this.setState({ countTodo: countTodo - 1 })

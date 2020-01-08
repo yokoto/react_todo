@@ -9,8 +9,8 @@ class Todo extends Component {
       <li className={className}>
         <span>{this.props.id}</span>
         <span>:{this.props.title} </span>
-        <a href="" onClick={(e) => { e.preventDefault(); this.props.setTodoStatus(this.props)}}>{link}</a>
-        |<a href="" onClick={() => { this.props.handleRemove(this.props.id)}}>削除</a>
+        <button onClick={(e) => { e.preventDefault(); this.props.setTodoStatus(this.props)}}>{link}</button>
+        |<button onClick={() => { this.props.handleRemove(this.props.id)}}>削除</button>
         <p>{this.props.desc}</p>
       </li>
     );
