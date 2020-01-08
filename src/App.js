@@ -103,8 +103,8 @@ class App extends Component {
           todos={this.state.todos}
           setTodoStatus={this.setTodoStatus.bind(this)}
           handleRemove={this.handleRemove.bind(this)}
-          //isLoading={this.state.isLoading}
-          //hasError={this.state.hasError}
+          isLoading={this.state.isLoading}
+          hasError={this.state.hasError}
         />
       </div>
     );
