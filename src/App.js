@@ -78,10 +78,11 @@ class App extends Component {
     .then((data) => {
       let countTodoId = this.state.countTodoId
       const todos = data.map(data => {
-        const todo = Object.assign({}, data, { id: countTodoId++, done: false })
-        return todo
+        // const todo = Object.assign({}, data, { id: countTodoId++, done: false })
+        // スプレッド構文で書き換え
+        console.log(data)
+        return {...data, id: countTodoId++, done: false}
       })
-      console.log(todos);
       this.setState({
         todos,
         countTodoId: todos.length - 1
